@@ -1,0 +1,42 @@
+<launch>
+  <arg name="model" default="$(env OPENSG_MODEL)" doc="model type [robot]"/>
+  <arg name="x_pos" default="0.0"/>
+  <arg name="y_pos" default="0.0"/>
+  <arg name="z_pos" default="0.0"/>
+  <arg name="pause" default="false"/>
+
+  <!-- map_route-->
+  <arg name="map_file" default="$(find robot_mapping)/maps/garage/garage.yaml"/>
+  <!-- map_server -->
+  <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)"/>
+
+  <!-- TF transforms for rviz -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- <arg name="world_name" value="$(find my_simulation)/src/my_gazebo/worlds/my_world/world.world"/> --> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+    <!-- <arg name="world_name" value="$(find robot_gazebo)/worlds/opensg/opensg_world.world"/> -->
+    <arg name="world_name" value="$(find robot_gazebo)/worlds/opensg/garage/garage.world"/>
+    <arg name="paused" value="$(arg pause)"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- AMCL -->
+  <include file="$(find robot_navigation)/launch/robot_amcl.launch"/>
+
+  <!-- rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_bringup)/rviz/gazebo_world.rviz"/>
+
+  <!-- load robot -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find robot_description)/urdf/opensg_$(arg model).urdf.mesh.xacro" />
+  <!-- <param name="robot_description" command="$(find xacro)/xacro $(find robot_description)/urdf/opensg_$(arg model).urdf.xacro" /> -->
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf"  args="-urdf -model opensg_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) 
+        -param robot_description" respawn="false" output="screen"/>
+
+</launch>

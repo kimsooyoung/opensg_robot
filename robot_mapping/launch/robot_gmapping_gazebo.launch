@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="set_base_frame" default="base_footprint"/>
+    <arg name="set_odom_frame" default="opensg_odom_frame"/>
+    <arg name="set_map_frame"  default="map"/>
+  
+    <!-- robot bringup -->
+    <include file="$(find robot_bringup)/launch/robot_bringup_gazebo_mapping.launch"/>
+    <!-- Gmapping SLAM Mapping -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <param name="base_frame" value="$(arg set_base_frame)"/>
+        <param name="odom_frame" value="$(arg set_odom_frame)"/>
+        <param name="map_frame"  value="$(arg set_map_frame)"/>
+        <rosparam file="$(find robot_mapping)/config/robot_gmapping_params.yaml" command="load"/>
+        <!-- <remap from="scan" to="opensg_scan"/> -->
+        <remap from="scan" to="opensg_scan_front"/>
+    </node>
+
+    <!-- rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_mapping)/rviz/gmapping.rviz"/>
+</launch>

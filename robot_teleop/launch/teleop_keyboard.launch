@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="model" default="$(env OPENSG_MODEL)" doc="model type [robot]"/>
+    <param name="model" value="$(arg model)"/>
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_keyboard" output="screen">
+        <rosparam file="$(find robot_teleop)/config/keyboard_params.yaml" command="load"/>
+	    <remap from="cmd_vel" to="opensg_cmd_vel"/>
+    </node>
+</launch>

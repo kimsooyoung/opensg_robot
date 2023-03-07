@@ -1,0 +1,33 @@
+<launch>
+  <!-- Robot Description from URDF -->
+  <!-- <param name="robot_description" textfile="$(find my_simulation)/src/my_gazebo/worlds/my_world/model.sdf" /> -->
+  
+  <!-- map_route-->
+  <arg name="map_file" default="$(find robot_mapping)/maps/mymap.yaml"/>
+  <!-- map_server -->
+  <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)"/>
+
+  <!-- Control Params-->
+  <!-- <rosparam file="$(find robot_control)/config/robot_controllers.yaml" command="load"/> -->
+
+  <!-- URDF -->
+  <arg name="model" default="$(find robot_description)/urdf/opensg_robot.urdf.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
+
+  <!-- TF transforms for rviz -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- robot control-->
+  <!-- <node name="main_code" pkg="robot_control" type="core_code" output="screen"/> -->
+  <!-- <node pkg="controller_manager" type="spawner" name="controller_spawner" respawn="True" 
+        args="
+        /Open_SG_Robot/joints_state
+        /Open_SG_Robot/diff_drive_controller
+        "/> -->
+
+  <!-- rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_bringup)/rviz/bringup.rviz" output="screen"/>
+
+</launch>

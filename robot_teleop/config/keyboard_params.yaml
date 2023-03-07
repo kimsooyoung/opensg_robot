@@ -1,0 +1,4 @@
+_speed: 0.01
+_turn: 0.02
+_repeat_time: 0.05
+_key_timeout: 0.1
