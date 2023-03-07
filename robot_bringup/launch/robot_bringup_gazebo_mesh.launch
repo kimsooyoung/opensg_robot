@@ -1,5 +1,5 @@
 <launch>
-  <arg name="model" default="$(env OPENSG_MODEL)" doc="model type [robot]"/>
+  <arg name="model" default="robot" doc="model type [robot]"/>
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
