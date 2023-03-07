@@ -124,7 +124,7 @@
       </ray>
       <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_laser.so">
         <topicName>opensg_scan_front</topicName>
-        <frameName>base_footprint</frameName>
+        <frameName>front_base_scan</frameName>
       </plugin>
     </sensor>
   </gazebo>
