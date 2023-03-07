@@ -31,8 +31,6 @@
     <material>Gazebo/Red</material>
   </gazebo>
 
-
-
   <gazebo reference="front_caster_left">
     <mu1>0.1</mu1>
     <mu2>0.1</mu2>
@@ -98,7 +96,7 @@
 
   <gazebo reference="front_base_scan">
     <material>Gazebo/FlatBlack</material>
-    <sensor type="ray" name="lds_lfcd_sensor">
+    <sensor type="ray" name="lds_lfcd_sensor_1">
       <pose>0 0 0 0 0 0</pose>
       <visualize>$(arg laser_visual)</visualize>
       <update_rate>5</update_rate>
@@ -106,15 +104,17 @@
         <scan>
           <horizontal>
             <samples>360</samples>
-            <resolution>1</resolution>   
-            <min_angle>-3.00</min_angle> -3.14 / 0.00
-            <max_angle>1.57</max_angle>  1.57 / 6.28139
+            <resolution>1</resolution>
+            <!-- <min_angle>-1.85</min_angle> -->
+            <min_angle>-1.5707</min_angle>
+            <!-- <max_angle>1.85</max_angle> -->
+            <max_angle>1.5707</max_angle>
           </horizontal>
         </scan>
         <range>
-          <min>0.3</min> 0.30
-          <max>7.5</max> 10.0
-          <resolution>0.015</resolution> 0.015
+          <min>0.120</min>
+          <max>3.5</max>
+          <resolution>0.015</resolution>
         </range>
         <noise>
           <type>gaussian</type>
@@ -129,25 +129,27 @@
     </sensor>
   </gazebo>
 
-  <!-- <gazebo reference="rear_base_scan">
+  <gazebo reference="rear_base_scan">
     <material>Gazebo/FlatBlack</material>
-    <sensor type="ray" name="lds_lfcd_sensor">
+    <sensor type="ray" name="lds_lfcd_sensor_2">
       <pose>0 0 0 0 0 0</pose>
-      <visualize>$(arg laser_visual_2)</visualize>
+      <visualize>$(arg laser_visual)</visualize>
       <update_rate>5</update_rate>
       <ray>
         <scan>
           <horizontal>
             <samples>360</samples>
             <resolution>1</resolution>
-            <min_angle>2.80</min_angle> 0.00
-            <max_angle>-1.30</max_angle>  6.28139
+            <!-- <min_angle>-1.85</min_angle> -->
+            <min_angle>-1.5707</min_angle>
+            <!-- <max_angle>1.85</max_angle> -->
+            <max_angle>1.5707</max_angle>
           </horizontal>
         </scan>
         <range>
           <min>0.120</min>
           <max>3.5</max>
-          <resolution>0.015</resolution> 0.015
+          <resolution>0.015</resolution>
         </range>
         <noise>
           <type>gaussian</type>
@@ -157,9 +159,9 @@
       </ray>
       <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_laser.so">
         <topicName>opensg_scan_rear</topicName>
-        <frameName>base_footprint</frameName>
+        <frameName>rear_base_scan</frameName>
       </plugin>
     </sensor>
-  </gazebo> -->
+  </gazebo>
 
 </robot>
